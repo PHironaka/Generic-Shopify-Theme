@@ -1,0 +1,309 @@
+<!-- /templates/product.liquid -->
+{% comment %}
+
+  Rich snippets (itemscope, itemtype, etc.) for products are a theme requirement,
+  and allow search engines to easily understand what the content is.
+
+  For more information on these Scheme.org tags, visit:
+    - http://schema.org/docs/gs.html
+
+{% endcomment %}
+
+<div itemscope itemtype="http://schema.org/Product">
+
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
+
+  {% include 'breadcrumb' %}
+
+  <div class="grid product-single">
+    <div class="grid__item large--one-half text-center">
+      <div class="product-single__photos" id="ProductPhoto">
+        {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+        {% if featured_image %}
+        <img src="{{ featured_image.src | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}">
+        {% else %}
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <svg  viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #1979FF;">
+            <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+            <title>Simple Apple Watch Wireframe</title>
+            <desc>Created with Sketch.</desc>
+            <defs></defs>
+            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Simple-Apple-Watch-Wireframe">
+                    <g id="bg" opacity="0.200000003" transform="translate(400.000000, 310.500000) rotate(-90.000000) translate(-400.000000, -310.500000) translate(49.000000, -62.000000)">
+                        <path d="M101.1042,166.110707 C100.3968,165.441286 99.2466,165.589746 98.6958,166.39683 C98.118,167.244402 97.5024,168.127065 97.0245,168.858569 C95.1345,171.754891 86.1273,189.329873 74.7306,190.957536 C67.6998,191.961667 61.3818,187.918152 59.319,182.168696 C55.2069,170.699475 61.9245,162.366812 68.9391,153.861395 C69.8922,152.703406 69.4386,151.135127 68.0022,150.703243 C65.286,149.890761 63.2475,149.866467 60.3612,149.866467 C28.1475,149.866467 1.7928,176.214094 1.7928,208.419149 L1.7928,542.970036 L1.8252,542.972736 C2.4786,574.616341 28.5552,600.308043 60.3612,600.308043 C63.2475,600.308043 65.286,600.28375 68.0022,599.471268 C69.4386,599.039384 69.8922,597.468406 68.9391,596.313116 C61.9245,587.807699 55.2069,579.475036 59.319,568.005815 C61.3818,562.253659 67.6998,558.212844 74.7306,559.216975 C86.1273,560.844638 95.1345,578.41962 97.0245,581.315942 C97.5024,582.047446 98.118,582.930109 98.6958,583.777681 C99.2466,584.582065 100.3968,584.733225 101.1042,584.063804 C111.8367,573.922627 118.233,559.97817 118.8648,544.319674 L118.9269,544.319674 L118.9269,208.419149 C118.9269,191.718732 112.4199,176.802536 101.1042,166.110707 L101.1042,166.110707 Z" id="Shape" stroke="#FFFFFF" stroke-width="5.211"></path>
+                        <path d="M119.9124,235.660236 L126.7893,235.660236 C126.7893,235.660236 135.9612,308.573062 135.9612,375.409819 C135.9612,442.243877 126.0846,511.685435 126.0846,511.685435 L119.2077,511.685435" id="Shape" stroke="#FFFFFF" stroke-width="4.698"></path>
+                        <path d="M64.3113,498.66683 C52.3719,498.66683 42.606,488.900851 42.606,476.967355 L42.606,404.923696 C42.606,392.9875 52.3719,383.221522 64.3113,383.221522 C76.2507,383.221522 86.0166,392.9875 86.0166,404.923696 L86.0166,476.967355 C86.0166,488.900851 76.2507,498.66683 64.3113,498.66683 L64.3113,498.66683 Z" id="Shape" stroke="#FFFFFF" stroke-width="5.211"></path>
+                        <path d="M80.7516,288.91154 C80.7516,299.93538 71.8119,308.869982 60.7878,308.869982 C49.761,308.869982 40.824,299.93538 40.824,288.91154 C40.824,277.887699 49.761,268.953098 60.7878,268.953098 C71.8119,268.953098 80.7516,277.887699 80.7516,288.91154" id="Shape" fill="#FFFFFF"></path>
+                        <path d="M101.1771,288.46346 C101.1771,310.513841 83.295,328.391141 61.2387,328.391141 C39.1797,328.391141 21.3003,310.513841 21.3003,288.46346 C21.3003,266.41038 39.1797,248.535779 61.2387,248.535779 C83.295,248.535779 101.1771,266.41038 101.1771,288.46346 L101.1771,288.46346 Z" id="Shape" stroke="#FFFFFF" stroke-width="4.077"></path>
+                        <path d="M100.278,288.476957 L89.9559,288.474257" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M60.5637,249.431938 L60.5637,259.751268" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M60.7878,317.399692 L60.7878,327.719022" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M99.3411,297.306286 L89.2728,295.036196" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M69.1821,250.490054 L66.9141,260.555652" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M96.5439,305.425707 L87.2127,301.015091" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M77.3118,253.165036 L72.9054,262.496431" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M92.1753,312.797428 L83.9943,306.505417" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M84.4938,257.643134 L78.2028,265.824638" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M86.2245,318.986866 L79.6122,311.064493" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M90.747,263.484366 L82.8252,270.097591" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M78.4701,324.245054 L73.8828,315.000036" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M95.7906,271.320362 L86.5458,275.90913" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M70.4052,327.195362 L67.9428,317.175652" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M98.8416,279.315616 L88.8192,281.780054" id="Shape" stroke="#FFFFFF" stroke-width="3.915"></path>
+                        <path d="M98.6958,166.39683 C98.6958,166.39683 150.2658,76.8159783 246.6423,44.7 C343.0161,12.5840217 406.2447,32.6963225 442.8621,44.7 C495.8253,62.0590399 541.8414,86.3633152 587.952,126.617609 C590.598,128.925489 592.9794,133.101268 593.2845,136.599529 C594.0216,145.048261 590.7411,159.591957 587.7495,191.284149 C583.9506,231.554638 604.2681,284.549511 609.39,297.130833 C610.4295,299.684348 611.334,302.291848 612.0414,304.956033 C615.1599,316.70058 625.5063,355.119366 621.2862,404.486413 C617.1633,452.692772 605.3751,477.623279 608.6907,516.320091 C609.2793,523.197844 617.8815,525.880924 622.3014,520.579547 C636.2118,503.895326 656.8506,462.059257 651.564,362.823098 C651.564,362.823098 650.9214,304.416178 631.3788,260.830978 C613.8828,221.815652 619.3341,175.498786 622.6713,156.633551 C624.5073,146.260236 625.158,137.322935 620.6355,127.810688 C614.0502,113.963406 597.2859,95.9349457 567.2376,76.0547826 C508.1967,36.9962681 450.1332,16.5708514 412.2576,8.02494565 C318.4866,-13.1319746 227.9745,22.3473007 227.9745,22.3473007 C227.9745,22.3473007 135.5076,55.1138043 69.6573,152.954438" id="Shape" stroke="#FFFFFF" stroke-width="5.211"></path>
+                        <path d="M98.6958,583.777681 C98.6958,583.777681 183.6945,713.062174 337.3731,713.062174 C486.4914,713.062174 574.4007,608.902536 574.4007,608.902536 C574.4007,608.902536 652.9761,517.761504 653.8455,421.413569 C654.6663,330.275236 655.1469,309.439529 621.2862,224.809149" id="Shape" stroke="#FFFFFF" stroke-width="5.211"></path>
+                        <path d="M69.5763,597.020326 C69.5763,597.020326 174.1446,743.442518 331.7301,743.442518 C489.3156,743.442518 585.2547,644.489783 585.2547,644.489783 C585.2547,644.489783 679.4577,559.424819 683.3646,425.751304 C686.9826,302.005725 668.1717,240.432554 622.5903,167.519728" id="Shape" stroke="#FFFFFF" stroke-width="5.211"></path>
+                        <path d="M588.7269,167.087844 C588.7269,167.087844 547.0524,108.931957 449.8092,72.4755435 C376.893,45.1399819 320.1147,57.1760507 301.2309,59.7808514 C301.0257,59.8105435 292.5531,61.2006703 292.3479,61.2357609 C278.7669,63.6867029 226.6731,71.0638225 257.9283,41.5526449" id="Shape" stroke="#FFFFFF" stroke-width="4.698"></path>
+                    </g>
+                    <g id="1" transform="translate(159.000000, 168.000000)">
+                        <path d="M37.446,61.539 C37.184,61.291 36.758,61.346 36.554,61.645 C36.34,61.959 36.112,62.286 35.935,62.557 C35.235,63.63 31.899,70.141 27.678,70.744 C25.074,71.116 22.734,69.618 21.97,67.488 C20.447,63.239 22.935,60.152 25.533,57.001 C25.886,56.572 25.718,55.991 25.186,55.831 C24.18,55.53 23.425,55.521 22.356,55.521 C10.425,55.521 0.664,65.282 0.664,77.213 L0.664,201.154 L0.676,201.155 C0.918,212.878 10.576,222.396 22.356,222.396 C23.425,222.396 24.18,222.387 25.186,222.086 C25.718,221.926 25.886,221.344 25.533,220.916 C22.935,217.765 20.447,214.678 21.97,210.429 C22.734,208.298 25.074,206.801 27.678,207.173 C31.899,207.776 35.235,214.287 35.935,215.36 C36.112,215.631 36.34,215.958 36.554,216.272 C36.758,216.57 37.184,216.626 37.446,216.378 C41.421,212.621 43.79,207.455 44.024,201.654 L44.047,201.654 L44.047,77.213 C44.047,71.026 41.637,65.5 37.446,61.539 L37.446,61.539 Z" id="Shape" stroke="#FFFFFF" stroke-width="1.93"></path>
+                        <path d="M44.412,87.305 L46.959,87.305 C46.959,87.305 50.356,114.317 50.356,139.078 C50.356,163.838 46.698,189.564 46.698,189.564 L44.151,189.564" id="Shape" stroke="#FFFFFF" stroke-width="1.74"></path>
+                        <path d="M23.819,184.741 C19.397,184.741 15.78,181.123 15.78,176.702 L15.78,150.012 C15.78,145.59 19.397,141.972 23.819,141.972 C28.241,141.972 31.858,145.59 31.858,150.012 L31.858,176.702 C31.858,181.123 28.241,184.741 23.819,184.741 L23.819,184.741 Z" id="Shape" stroke="#FFFFFF" stroke-width="1.93"></path>
+                        <path d="M5.249,63.991 L5.249,213.28" id="Shape" stroke="#FFFFFF" stroke-width="1.46"></path>
+                        <path d="M29.908,107.033 C29.908,111.117 26.597,114.427 22.514,114.427 C18.43,114.427 15.12,111.117 15.12,107.033 C15.12,102.949 18.43,99.639 22.514,99.639 C26.597,99.639 29.908,102.949 29.908,107.033" id="Shape" fill="#FFFFFF"></path>
+                        <path d="M37.473,106.867 C37.473,115.036 30.85,121.659 22.681,121.659 C14.511,121.659 7.889,115.036 7.889,106.867 C7.889,98.697 14.511,92.075 22.681,92.075 C30.85,92.075 37.473,98.697 37.473,106.867 L37.473,106.867 Z" id="Shape" stroke="#FFFFFF" stroke-width="1.51"></path>
+                        <path d="M37.14,106.872 L33.317,106.871" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M11.96,106.947 L8.137,106.946" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M22.431,92.407 L22.431,96.23" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M22.514,117.587 L22.514,121.41" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M36.793,110.143 L33.064,109.302" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M12.212,104.682 L8.483,103.841" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M25.623,92.799 L24.783,96.528" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M20.169,117.382 L19.329,121.111" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M35.757,113.151 L32.301,111.517" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M12.957,102.465 L9.501,100.831" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M28.634,93.79 L27.002,97.247" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M17.956,116.594 L16.324,120.051" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M34.139,115.882 L31.109,113.551" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M14.131,100.594 L11.101,98.263" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M31.294,95.449 L28.964,98.48" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M16.013,115.462 L13.683,118.493" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M31.935,118.175 L29.486,115.24" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M15.738,98.895 L13.289,95.96" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M33.61,97.613 L30.676,100.063" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M14.335,113.816 L11.401,116.266" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M29.063,120.123 L27.364,116.698" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M17.799,97.603 L16.1,94.178" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M35.478,100.516 L32.054,102.216" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M12.961,111.787 L9.537,113.487" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M26.076,121.216 L25.164,117.504" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M19.989,96.783 L19.077,93.071" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M36.608,103.478 L32.896,104.391" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M12.177,109.572 L8.465,110.485" id="Shape" stroke="#FFFFFF" stroke-width="1.45"></path>
+                        <path d="M36.554,61.645 C36.554,61.645 55.654,28.458 91.349,16.56 C127.043,4.662 150.461,12.113 164.023,16.56 C183.639,22.991 200.682,31.995 217.76,46.908 C218.74,47.763 219.622,49.31 219.735,50.606 C220.008,53.736 218.793,59.124 217.685,70.865 C216.278,85.784 223.803,105.417 225.7,110.078 C226.085,111.024 226.42,111.99 226.682,112.977 C227.837,117.328 231.669,131.561 230.106,149.85 C228.579,167.709 224.213,176.945 225.441,191.281 C225.659,193.829 228.845,194.823 230.482,192.859 C235.634,186.678 243.278,171.179 241.32,134.415 C241.32,134.415 241.082,112.777 233.844,96.63 C227.364,82.176 229.383,65.017 230.619,58.028 C231.299,54.185 231.54,50.874 229.865,47.35 C227.426,42.22 221.217,35.541 210.088,28.176 C188.221,13.706 166.716,6.139 152.688,2.973 C117.958,-4.865 84.435,8.279 84.435,8.279 C84.435,8.279 50.188,20.418 25.799,56.665" id="Shape" stroke="#FFFFFF" stroke-width="1.93"></path>
+                        <path d="M36.554,216.272 C36.554,216.272 68.035,264.168 124.953,264.168 C180.182,264.168 212.741,225.58 212.741,225.58 C212.741,225.58 241.843,191.815 242.165,156.121 C242.469,122.357 242.647,114.638 230.106,83.285" id="Shape" stroke="#FFFFFF" stroke-width="1.93"></path>
+                        <path d="M25.769,221.178 C25.769,221.178 64.498,275.423 122.863,275.423 C181.228,275.423 216.761,238.764 216.761,238.764 C216.761,238.764 251.651,207.25 253.098,157.728 C254.438,111.884 247.471,89.073 230.589,62.061" id="Shape" stroke="#FFFFFF" stroke-width="1.93"></path>
+                        <path d="M254.031,151.203 C257.479,151.524 259.935,155.439 259.515,159.948 C259.096,164.458 255.961,167.853 252.513,167.533" id="Shape" stroke="#FFFFFF" stroke-width="1.93"></path>
+                        <path d="M218.047,61.901 C218.047,61.901 202.612,40.356 166.596,26.85 C139.59,16.723 118.561,21.182 111.567,22.147 C111.491,22.158 108.353,22.673 108.277,22.686 C103.247,23.594 83.953,26.327 95.529,15.394" id="Shape" stroke="#FFFFFF" stroke-width="1.74"></path>
+                    </g>
+                    <g id="2" transform="translate(472.000000, 124.000000)" stroke="#FFFFFF">
+                        <path d="M154.365,284.533 L29.918,284.533 C14,284.533 0.976,271.509 0.976,255.592 L0.976,96.897 C0.976,80.98 14,67.956 29.918,67.956 L154.365,67.956 C170.283,67.956 183.306,80.98 183.306,96.897 L183.306,255.592 C183.306,271.509 170.283,284.533 154.365,284.533 L154.365,284.533 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M155.534,275.901 L28.749,275.901 C17.918,275.901 9.056,267.039 9.056,256.208 L9.056,98.211 C9.056,87.38 17.918,78.518 28.749,78.518 L155.534,78.518 C166.365,78.518 175.227,87.38 175.227,98.211 L175.227,256.208 C175.227,267.039 166.365,275.901 155.534,275.901 L155.534,275.901 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M184.578,181.309 C186.266,181.309 187.648,182.69 187.648,184.379 L187.648,229.851 C187.648,231.539 186.266,232.921 184.578,232.921" id="Shape" stroke-width="2"></path>
+                        <path d="M184.554,118.764 C188.466,118.764 191.667,121.965 191.667,125.877 L191.667,148.632 C191.667,152.544 188.466,155.744 184.554,155.744" id="Shape" stroke-width="2"></path>
+                        <path d="M187.463,123.266 L191.081,123.266" id="Shape" stroke-width="1.94"></path>
+                        <path d="M187.463,127.125 L191.081,127.125" id="Shape" stroke-width="1.94"></path>
+                        <path d="M187.463,130.984 L191.081,130.984" id="Shape" stroke-width="1.94"></path>
+                        <path d="M187.463,134.842 L191.081,134.842" id="Shape" stroke-width="1.94"></path>
+                        <path d="M187.463,138.701 L191.081,138.701" id="Shape" stroke-width="1.94"></path>
+                        <path d="M187.463,142.56 L191.081,142.56" id="Shape" stroke-width="1.94"></path>
+                        <path d="M187.463,146.419 L191.081,146.419" id="Shape" stroke-width="1.94"></path>
+                        <path d="M187.463,150.278 L191.081,150.278" id="Shape" stroke-width="1.94"></path>
+                        <path d="M22.08,69.041 C22.08,69.041 33.536,61.685 34.742,51.234 C35.602,43.777 37.596,25.362 38.617,15.896 C39.166,10.806 42.684,6.533 47.578,5.029 C54.728,2.831 68,0.748 92.624,0.748 C92.624,0.748 118.825,0.07 135.448,5.719 C140.434,7.413 144.014,11.802 144.676,17.025 L149.301,53.485 C149.301,53.485 150.266,64.579 160.475,68.599" id="Shape" stroke-width="2"></path>
+                        <path d="M22.08,283.641 C22.08,283.641 33.536,290.997 34.742,301.448 C35.558,308.523 37.395,325.465 38.453,335.266 C39.121,341.458 43.514,346.626 49.538,348.21 C57.067,350.19 70.094,351.934 92.624,351.934 C92.624,351.934 118.035,352.591 134.684,347.216 C140.162,345.448 144.053,340.572 144.777,334.863 L149.301,299.197 C149.301,299.197 150.266,288.103 160.475,284.083" id="Shape" stroke-width="2"></path>
+                        <path d="M111.923,176.344 C111.923,187.171 103.146,195.948 92.319,195.948 C81.492,195.948 72.715,187.171 72.715,176.344 C72.715,165.517 81.492,156.74 92.319,156.74 C103.146,156.74 111.923,165.517 111.923,176.344 L111.923,176.344 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M87.029,140.56 C87.029,149.325 79.924,156.43 71.159,156.43 C62.395,156.43 55.289,149.325 55.289,140.56 C55.289,131.795 62.395,124.69 71.159,124.69 C79.924,124.69 87.029,131.795 87.029,140.56 L87.029,140.56 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M128.104,140.56 C128.104,149.325 120.999,156.43 112.234,156.43 C103.47,156.43 96.365,149.325 96.365,140.56 C96.365,131.795 103.47,124.69 112.234,124.69 C120.999,124.69 128.104,131.795 128.104,140.56 L128.104,140.56 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M87.029,211.507 C87.029,220.272 79.924,227.377 71.159,227.377 C62.395,227.377 55.289,220.272 55.289,211.507 C55.289,202.742 62.395,195.637 71.159,195.637 C79.924,195.637 87.029,202.742 87.029,211.507 L87.029,211.507 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M128.104,211.507 C128.104,220.272 120.999,227.377 112.234,227.377 C103.47,227.377 96.365,220.272 96.365,211.507 C96.365,202.742 103.47,195.637 112.234,195.637 C120.999,195.637 128.104,202.742 128.104,211.507 L128.104,211.507 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M65.558,176.033 C65.558,184.798 58.453,191.903 49.688,191.903 C40.924,191.903 33.818,184.798 33.818,176.033 C33.818,167.268 40.924,160.163 49.688,160.163 C58.453,160.163 65.558,167.268 65.558,176.033 L65.558,176.033 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M150.508,176.033 C150.508,184.798 143.403,191.903 134.638,191.903 C125.874,191.903 118.768,184.798 118.768,176.033 C118.768,167.268 125.874,160.163 134.638,160.163 C143.403,160.163 150.508,167.268 150.508,176.033 L150.508,176.033 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M92.163,229.381 C99.896,229.381 106.166,235.65 106.166,243.384 C106.166,251.117 99.896,257.386 92.163,257.386 C84.43,257.386 78.16,251.117 78.16,243.384 C78.16,235.65 84.43,229.381 92.163,229.381 L92.163,229.381 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M92.163,95.614 C99.896,95.614 106.166,101.883 106.166,109.617 C106.166,117.35 99.896,123.619 92.163,123.619 C84.43,123.619 78.16,117.35 78.16,109.617 C78.16,101.883 84.43,95.614 92.163,95.614 L92.163,95.614 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M44.278,109.33 C44.278,102.47 49.839,96.909 56.699,96.909 C63.558,96.909 69.119,102.47 69.119,109.33 C69.119,116.19 63.558,121.751 56.699,121.751 C49.839,121.751 44.278,116.19 44.278,109.33 L44.278,109.33 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M24.667,139.728 C24.667,132.868 30.228,127.307 37.088,127.307 C43.947,127.307 49.508,132.868 49.508,139.728 C49.508,146.588 43.947,152.149 37.088,152.149 C30.228,152.149 24.667,146.588 24.667,139.728 L24.667,139.728 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M134.492,139.728 C134.492,146.588 140.053,152.149 146.913,152.149 C153.772,152.149 159.333,146.588 159.333,139.728 C159.333,132.868 153.772,127.307 146.913,127.307 C140.053,127.307 134.492,132.868 134.492,139.728 L134.492,139.728 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M114.88,109.33 C114.88,116.19 120.441,121.751 127.301,121.751 C134.16,121.751 139.721,116.19 139.721,109.33 C139.721,102.47 134.16,96.909 127.301,96.909 C120.441,96.909 114.88,102.47 114.88,109.33 L114.88,109.33 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M44.278,242.689 C44.278,249.549 49.839,255.11 56.699,255.11 C63.558,255.11 69.119,249.549 69.119,242.689 C69.119,235.829 63.558,230.268 56.699,230.268 C49.839,230.268 44.278,235.829 44.278,242.689 L44.278,242.689 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M24.667,212.291 C24.667,219.151 30.228,224.712 37.088,224.712 C43.947,224.712 49.508,219.151 49.508,212.291 C49.508,205.431 43.947,199.87 37.088,199.87 C30.228,199.87 24.667,205.431 24.667,212.291 L24.667,212.291 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M134.492,212.291 C134.492,205.431 140.053,199.87 146.913,199.87 C153.772,199.87 159.333,205.431 159.333,212.291 C159.333,219.151 153.772,224.712 146.913,224.712 C140.053,224.712 134.492,219.151 134.492,212.291 L134.492,212.291 Z" id="Shape" stroke-width="2"></path>
+                        <path d="M114.88,242.689 C114.88,235.829 120.441,230.268 127.301,230.268 C134.16,230.268 139.721,235.829 139.721,242.689 C139.721,249.549 134.16,255.11 127.301,255.11 C120.441,255.11 114.88,249.549 114.88,242.689 L114.88,242.689 Z" id="Shape" stroke-width="2"></path>
+                    </g>
+                </g>
+            </g>
+        </svg>
+            {% endif %}
+      </div>
+
+      {% comment %}
+        Create thumbnails if we have more than one product image
+      {% endcomment %}
+      {% if product.images.size > 1 %}
+        <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
+
+          {% for image in product.images %}
+            <li class="grid__item one-quarter">
+              <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+              </a>
+            </li>
+          {% endfor %}
+
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="grid__item large--one-half">
+
+      <h1 itemprop="name">{{ product.title }}</h1>
+
+      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+        {% comment %}
+          ID addToCartForm is a selector for the ajax cart plugin
+        {% endcomment %}
+        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
+
+          {% comment %}
+            Add product variants as a dropdown.
+              - By default, each variant (or combination of variants) will display as its own <option>
+              - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
+
+            You can leverage jQuery to add a callback on page load and each time the select element changes:
+              - Include option_selection.js (as seen at the bottom of this file)
+              - This allows you to use JavaScript anytime the variant dropdown changes
+              - This also separates out your variant options (ie. size, color, etc.) to separate select elements
+
+            For more information on products with multiple options, visit:
+              - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
+          {% endcomment %}
+          <select name="id" id="productSelect" class="product-single__variants">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+
+                {% comment %}
+                  Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
+                {% endcomment %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+
+              {% else %}
+                <option disabled="disabled">
+                  {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+
+          <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+          <span id="ProductPrice" class="h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+            {{ current_variant.price | money }}
+          </span>
+
+          {% if product.compare_at_price_max > product.price %}
+            <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+            <p id="ComparePrice">
+              {{ 'products.product.compare_at' | t }} {{ current_variant.compare_at_price | money }}
+            </p>
+          {% endif %}
+
+          <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
+          <!-- <div class="quantity">
+                    <div class="quantity-display">1</div>
+                    <input name="quantity" type="hidden" value="1" data-max="1">
+                    <div class="quantity-decrement " value="1" min="1" >-</div>
+                    <div class="quantity-increment" value="1" min="1" >+</div>
+                  </div> -->
+
+          <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+
+          <button type="submit" name="add" id="AddToCart" class="btn">
+            <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+          </button>
+        </form>
+
+      </div>
+
+      <div class="product-description rte" itemprop="description">
+        {{ product.description }}
+      </div>
+
+      {% comment %}
+        If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
+        in the URL, we can show next/previous links to other products in the collection.
+      {% endcomment %}
+      <!-- {% if collection %}
+        {% if collection.previous_product or collection.next_product %}
+          <p>
+            {% if collection.previous_product %}
+              <span class="left">
+                {{ 'products.general.previous_product_html' | t | link_to: collection.previous_product }}
+              </span>
+            {% endif %}
+            {% if collection.next_product %}
+              <span class="right">
+                {{ 'products.general.next_product_html' | t | link_to: collection.next_product }}
+              </span>
+            {% endif %}
+          </p>
+        {% endif %}
+      {% endif %} -->
+
+    </div>
+  </div>
+
+</div>
+
+{% comment %}
+  To take advantage of a callback on the select dropdown, add option_selection.js
+  and customize the JS in timber.productPage as needed.
+
+  Currently, timber.productPage does the following:
+    - Hides your <select> tag from above
+    - Breaks out the product variants into separate product options, if more than one exists
+    - Generates a <select> tag for each product option
+    - Enables/disables elements based on variant availability
+
+  Callback notes:
+    - Keep the callback available to the global scope (window.selectCallback) so that advanced
+      addons can override it.
+      * E.g. multiple currencies http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/currencies/how-to-toggle-between-two-currencies
+{% endcomment %}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+<script>
+  var selectCallback = function(variant, selector) {
+    timber.productPage({
+      money_format: "{{ shop.money_format }}",
+      variant: variant,
+      selector: selector
+    });
+  };
+
+  jQuery(function($) {
+    new Shopify.OptionSelectors('productSelect', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+    {% endif %}
+
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+  });
+</script>

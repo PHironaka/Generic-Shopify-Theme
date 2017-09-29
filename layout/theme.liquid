@@ -1,0 +1,513 @@
+<!doctype html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  {% if settings.favicon_enable %}
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
+
+  <!-- Title and description ================================================== -->
+  <title>
+  {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <!-- Helpers ================================================== -->
+  {% include 'social-meta-tags' %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+
+  <!-- CSS ================================================== -->
+  {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
+
+  <!-- Header hook for plugins ================================================== -->
+  {{ content_for_header }}
+  {% include 'oldIE-js' %}
+
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' | script_tag }}
+  {{ 'modernizr.min.js' | asset_url | script_tag }}
+
+  {% comment %}
+    If you store has customer accounts disabled, you can remove the following JS file
+  {% endcomment %}
+  {% if template contains 'customers' %}
+    {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% endif %}
+
+</head>
+
+{% comment %}
+  Add the page template as a class for easy page or template specific styling.
+{% endcomment %}
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+
+  <div id="NavDrawer" class="drawer drawer--left">
+    <div class="drawer__header">
+      <div class="drawer__title h3">{{ 'layout.drawers.browse' | t }}</div>
+      <div class="drawer__close js-drawer-close">
+        <button type="button" class="icon-fallback-text">
+          <span class="icon icon-x" aria-hidden="true"></span>
+          <span class="fallback-text">{{ 'layout.drawers.close_menu' | t }}</span>
+        </button>
+      </div>
+    </div>
+    <!-- begin mobile-nav -->
+    <ul class="mobile-nav">
+      <li class="mobile-nav__item mobile-nav__search">
+        {% include 'search-bar' %}
+      </li>
+      {% for link in linklists.main-menu.links %}
+        {% comment %}
+          Create a dropdown menu by naming a linklist the same as a link in the parent nav
+
+          More info on dropdowns:
+            - http://docs.shopify.com/manual/your-website/navigation/create-drop-down-menu
+        {% endcomment %}
+
+        {% assign child_list_handle = link.title | handleize %}
+        {% if linklists[child_list_handle].links != blank %}
+          <li class="mobile-nav__item{% if link.active %} mobile-nav__item--active{% endif %}" aria-haspopup="true">
+            <div class="mobile-nav__has-sublist">
+              <a href="{{ link.url }}" class="mobile-nav__link">{{ link.title }}</a>
+              <div class="mobile-nav__toggle">
+                <button type="button" class="icon-fallback-text mobile-nav__toggle-open">
+                  <span class="icon icon-plus" aria-hidden="true"></span>
+                  <span class="fallback-text">See More</span>
+                </button>
+                <button type="button" class="icon-fallback-text mobile-nav__toggle-close">
+                  <span class="icon icon-minus" aria-hidden="true"></span>
+                  <span class="fallback-text">{{ 'cart.general.close_cart' | t | json }}</span>
+                </button>
+              </div>
+            </div>
+            <ul class="mobile-nav__sublist">
+              {% for childlink in linklists[child_list_handle].links %}
+                <li class="mobile-nav__item {% if childlink.active %} mobile-nav__item--active{% endif %}">
+                  <a href="{{ childlink.url }}" class="mobile-nav__link">{{ childlink.title | escape }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+          <li class="mobile-nav__item{% if link.active %} mobile-nav__item--active{% endif %}">
+            <a href="{{ link.url }}" class="mobile-nav__link">{{ link.title }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% comment %}
+        If customer accounts are enabled, provide login and create account links
+      {% endcomment %}
+      {% if shop.customer_accounts_enabled %}
+        {% if customer %}
+          <li class="mobile-nav__item">
+            {% if customer.first_name != blank %}
+              {% capture first_name %}{{ customer.first_name }}{% endcapture %}
+              <a href="/account">{{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}</a>
+            {% else %}
+              <a href="/account">{{ 'layout.customer.account' | t }}</a>
+            {% endif %}
+          </li>
+          <li class="mobile-nav__item">
+            {{ 'layout.customer.log_out' | t | customer_logout_link }}
+          </li>
+        {% else %}
+          <li class="mobile-nav__item">
+            {{ 'layout.customer.log_in' | t | customer_login_link }}
+          </li>
+          <li class="mobile-nav__item">
+            {{ 'layout.customer.create_account' | t | customer_register_link }}
+          </li>
+        {% endif %}
+      {% endif %}
+    </ul>
+    <!-- //mobile-nav -->
+  </div>
+  {% if settings.ajax_cart_method == "drawer" %}
+    <div id="CartDrawer" class="drawer drawer--right">
+      <div class="drawer__header">
+        <div class="drawer__title h3">{{ 'cart.general.title' | t }}</div>
+        <div class="drawer__close js-drawer-close">
+          <button type="button" class="icon-fallback-text">
+            <span class="icon icon-x" aria-hidden="true"></span>
+            <span class="fallback-text">{{ 'cart.general.close_cart' | t | json }}</span>
+          </button>
+        </div>
+      </div>
+      <div id="CartContainer"></div>
+    </div>
+  {% endif %}
+  <div id="PageContainer" class="is-moved-by-drawer">
+    <header class="site-header" role="banner">
+      <div class="wrapper">
+
+        <div class="grid--full ">
+          <div class="grid__item large--one-sixth  ">
+            {% comment %}
+              Use the uploaded logo from theme settings if enabled.
+              Site name gets precedence with H1 tag on homepage, div on other pages.
+            {% endcomment %}
+            {% if template == 'index' %}
+              <h1 class="site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+            {% else %}
+              <div class="h1 site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+            {% endif %}
+              {% if settings.logo_use_image %}
+                <a href="/" itemprop="url" class="site-header__logo-link">
+                  <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+                </a>
+              {% else %}
+                <a href="/" itemprop="url">
+                  <svg xmlns="http://www.w3.org/2000/svg">
+                    <text fill-rule="evenodd" font-family="AvenirNext-Medium, Avenir Next" font-weight="400">
+                      <tspan x="5.4425" y="23">Logo</tspan>
+                    </text>
+                  </svg>
+
+                </a>
+              {% endif %}
+            {% if template == 'index' %}
+              </h1>
+            {% else %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="grid__item large--four-fifths nav-items ">
+            {% comment %}
+              Show number of items in the cart and total cost in the /cart link
+
+              Ajax Cart Notes:
+                - #cartCount updates the total number of items in the cart
+                - #cartCost updates the total cost of the cart
+                - Documentation:  http://shopify.com/timber#ajax-cart
+            {% endcomment %}
+            <nav class="nav-bar" role="navigation">
+                  {% comment %}
+                    List out your main-menu linklist (default)
+
+                    More info on linklists:
+                      - http://docs.shopify.com/themes/liquid-variables/linklists
+                  {% endcomment %}
+                  <!-- begin site-nav -->
+                  <ul class="site-nav" id="AccessibleNav">
+                    {% for link in linklists.main-menu.links %}
+                      {% comment %}
+                        Create a dropdown menu by naming a linklist the same as a link in the parent nav
+
+                        More info on dropdowns:
+                          - http://docs.shopify.com/manual/your-website/navigation/create-drop-down-menu
+                      {% endcomment %}
+                      {% assign child_list_handle = link.title | handleize %}
+                      {% if linklists[child_list_handle].links != blank %}
+                        <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+                          <a href="{{ link.url }}" class="site-nav__link">
+                            {{ link.title }}
+                            <span class="icon icon-arrow-down" aria-hidden="true"></span>
+                          </a>
+                          <ul class="site-nav__dropdown">
+                            {% for childlink in linklists[child_list_handle].links %}
+                              <li{% if childlink.active %} class="site-nav--active"{% endif %}>
+                                <a href="{{ childlink.url }}" class="site-nav__link">{{ childlink.title | escape }}</a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </li>
+                      {% else %}
+                        <li {% if link.active %}class="site-nav--active"{% endif %}>
+                          <a href="{{ link.url }}" class="site-nav__link">{{ link.title }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+
+
+            </nav>
+            <div class="site-header__search">
+              {% include 'search-bar' %}
+            </div>
+
+
+
+
+
+            <div class="site-header__cart">
+              <a href="/cart" class="site-header__cart-toggle js-drawer-open-right" aria-controls="CartDrawer" aria-expanded="false">
+
+                <?xml version="1.0" encoding="UTF-8"?>
+                <svg width="15px" height="15px" viewBox="0 0 30 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+                    <title>Group</title>
+                    <desc>Created with Sketch.</desc>
+                    <defs></defs>
+                    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Shopping-Cart" transform="translate(-28.000000, -18.000000)">
+                            <g id="Group" transform="translate(9.000000, 11.000000)">
+                                <g id="editor_unlock_lock_outline_stroke" transform="translate(26.862271, 25.976648) scale(1, -1) rotate(18.000000) translate(-26.862271, -25.976648) translate(5.372454, 5.961716)"></g>
+                                <g id="path-1-link" transform="translate(19.698999, 5.842788)" stroke="#000000" fill="#000000">
+                                    <path d="M-1.24344979e-14,17.5942913 L-1.24344979e-14,38.3372875 C-1.24344979e-14,39.3377536 0.796252985,40.1487915 1.79237907,40.1487915 L26.8607102,40.1487915 C27.8506139,40.1487915 28.6530893,39.338091 28.6530893,38.3372875 L28.6530893,17.5942913 C28.6530893,16.5938252 27.8568364,15.7827872 26.8607102,15.7827872 L1.79237907,15.7827872 C0.802475441,15.7827872 -1.24344979e-14,16.5934878 -1.24344979e-14,17.5942913 Z M1.79081808,38.4912401 L26.8622712,38.4912401 L26.8622712,17.5232161 L1.79081808,17.5232161 L1.79081808,38.4912401 Z M6.70096658,5.94061652 C5.33397957,8.35229431 7.12479769,8.9468851 8.14281319,7.03885202 C9.0790572,5.28408079 10.8763416,3.59978507 14.3265446,3.59978507 C21.5282916,3.59978507 21.5556181,10.9758884 21.5556181,10.9758884 L21.5556188,15.779388 L23.3464362,15.779388 L23.3464362,10.9758884 C23.3464362,10.9758884 23.3464354,1.8593562 14.3265446,1.8593562 C10.1332717,1.8593562 7.89534053,3.83346755 6.70096658,5.94061652 Z" id="path-1" transform="translate(14.326545, 21.004074) scale(1, -1) rotate(180.000000) translate(-14.326545, -21.004074) "></path>
+                                </g>
+                                <g id="editor_unlock_lock_outline_stroke" transform="translate(25.071453, 7.221287)" stroke="#000000" fill="#000000">
+                                    <g id="path-1-link" transform="translate(0.000000, 0.480858)">
+                                        <path d="M1.32851234,4.08126033 C-0.0384746699,6.49293811 1.75234345,7.0875289 2.77035895,5.17949582 C3.70660296,3.42472459 5.50388736,1.74042888 8.95409041,1.74042888 C16.1558374,1.74042888 16.1831638,9.11653222 16.1831638,9.11653222 L16.1831645,13.9200318 L17.9739819,13.9200318 L17.9739819,9.11653222 C17.9739819,9.11653222 17.9739812,0 8.95409041,0 C4.76081747,0 2.52288628,1.97411136 1.32851234,4.08126033 Z" id="path-1"></path>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <span id="CartCount">({{ cart.item_count }})</span>
+
+              </a>
+            </div>
+
+
+
+
+            {% comment %}
+              If customer accounts are enabled, provide login and create account links
+            {% endcomment %}
+            {% if shop.customer_accounts_enabled %}
+              <div class="site-header__login">
+                {% if customer %}
+                  {% if customer.first_name != blank %}
+                    {% capture first_name %}<a href="/account">{{ customer.first_name }}</a>{% endcapture %}
+                    {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}
+                  {% else %}
+                    <a href="/account">{{ 'layout.customer.account' | t }}</a>
+                  {% endif %}
+                  | {{ 'layout.customer.log_out' | t | customer_logout_link }}
+                {% else %}
+                  {{ 'layout.customer.log_in' | t | customer_login_link }}
+                  | {{ 'layout.customer.create_account' | t | customer_register_link }}
+                {% endif %}
+              </div>
+            {% endif %}
+
+
+
+          </div>
+        </div>
+
+        <!-- //site-nav -->
+      <div class="large--hide medium-down--show">
+        <div class="grid">
+          <div class="grid__item one-half">
+            <div class="site-nav--mobile">
+              <button type="button" class="icon-fallback-text site-nav__link js-drawer-open-left" aria-controls="NavDrawer" aria-expanded="false">
+                <span class="icon icon-hamburger" aria-hidden="true"></span>
+                <span class="fallback-text">{{ 'layout.navigation.menu' | t }}</span>
+              </button>
+            </div>
+          </div>
+          <div class="grid__item one-half text-right">
+            <div class="site-nav--mobile">
+              <a href="/cart" class="js-drawer-open-right site-nav__link" aria-controls="CartDrawer" aria-expanded="false">
+                <span class="icon-fallback-text">
+                  <?xml version="1.0" encoding="UTF-8"?>
+                  <svg width="15px" height="15px" viewBox="0 0 30 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+                      <title>Group</title>
+                      <desc>Created with Sketch.</desc>
+                      <defs></defs>
+                      <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                          <g id="Shopping-Cart" transform="translate(-28.000000, -18.000000)">
+                              <g id="Group" transform="translate(9.000000, 11.000000)">
+                                  <g id="editor_unlock_lock_outline_stroke" transform="translate(26.862271, 25.976648) scale(1, -1) rotate(18.000000) translate(-26.862271, -25.976648) translate(5.372454, 5.961716)"></g>
+                                  <g id="path-1-link" transform="translate(19.698999, 5.842788)" stroke="#000000" fill="#000000">
+                                      <path d="M-1.24344979e-14,17.5942913 L-1.24344979e-14,38.3372875 C-1.24344979e-14,39.3377536 0.796252985,40.1487915 1.79237907,40.1487915 L26.8607102,40.1487915 C27.8506139,40.1487915 28.6530893,39.338091 28.6530893,38.3372875 L28.6530893,17.5942913 C28.6530893,16.5938252 27.8568364,15.7827872 26.8607102,15.7827872 L1.79237907,15.7827872 C0.802475441,15.7827872 -1.24344979e-14,16.5934878 -1.24344979e-14,17.5942913 Z M1.79081808,38.4912401 L26.8622712,38.4912401 L26.8622712,17.5232161 L1.79081808,17.5232161 L1.79081808,38.4912401 Z M6.70096658,5.94061652 C5.33397957,8.35229431 7.12479769,8.9468851 8.14281319,7.03885202 C9.0790572,5.28408079 10.8763416,3.59978507 14.3265446,3.59978507 C21.5282916,3.59978507 21.5556181,10.9758884 21.5556181,10.9758884 L21.5556188,15.779388 L23.3464362,15.779388 L23.3464362,10.9758884 C23.3464362,10.9758884 23.3464354,1.8593562 14.3265446,1.8593562 C10.1332717,1.8593562 7.89534053,3.83346755 6.70096658,5.94061652 Z" id="path-1" transform="translate(14.326545, 21.004074) scale(1, -1) rotate(180.000000) translate(-14.326545, -21.004074) "></path>
+                                  </g>
+                                  <g id="editor_unlock_lock_outline_stroke" transform="translate(25.071453, 7.221287)" stroke="#000000" fill="#000000">
+                                      <g id="path-1-link" transform="translate(0.000000, 0.480858)">
+                                          <path d="M1.32851234,4.08126033 C-0.0384746699,6.49293811 1.75234345,7.0875289 2.77035895,5.17949582 C3.70660296,3.42472459 5.50388736,1.74042888 8.95409041,1.74042888 C16.1558374,1.74042888 16.1831638,9.11653222 16.1831638,9.11653222 L16.1831645,13.9200318 L17.9739819,13.9200318 L17.9739819,9.11653222 C17.9739819,9.11653222 17.9739812,0 8.95409041,0 C4.76081747,0 2.52288628,1.97411136 1.32851234,4.08126033 Z" id="path-1"></path>
+                                      </g>
+                                  </g>
+                              </g>
+                          </g>
+                      </g>
+                  </svg>
+                  <span class="fallback-text">{{ 'layout.cart.title' | t }}</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+      </div>
+    </header>
+
+
+
+    <main class="wrapper main-content" role="main">
+
+
+      {{ content_for_layout }}
+
+    </main>
+
+    <!-- begin site-footer -->
+    <footer class="site-footer small--text-center" role="contentinfo">
+      <div class="wrapper">
+        <div class="grid">
+          {% if settings.footer_social_enable %}
+            <div class="grid__item large--one-third medium--one-half">
+
+              <ul  id="AccessibleNav">
+                {% for link in linklists.footer.links %}
+                  {% comment %}
+                    Create a dropdown menu by naming a linklist the same as a link in the parent nav
+
+                    More info on dropdowns:
+                      - http://docs.shopify.com/manual/your-website/navigation/create-drop-down-menu
+                  {% endcomment %}
+                  {% assign child_list_handle = link.title | handleize %}
+                  {% if linklists[child_list_handle].links != blank %}
+                    <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+                      <a href="{{ link.url }}" >
+                        {{ link.title }}
+                        <span class="icon icon-arrow-down" aria-hidden="true"></span>
+                      </a>
+                      <ul class="site-nav__dropdown">
+                        {% for childlink in linklists[child_list_handle].links %}
+                          <li{% if childlink.active %} class="site-nav--active"{% endif %}>
+                            <a href="{{ childlink.url }}" >{{ childlink.title | escape }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                  {% else %}
+                    <li {% if link.active %}class="site-nav--active"{% endif %}>
+                      <a href="{{ link.url }}" >{{ link.title }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+
+
+            </div>
+          {% endif %}
+          {% if settings.footer_newsletter_enable %}
+            <div class="grid__item large--two-fifths  push--large--one-quarter  medium--one-half">
+              {% comment %}
+                MailChimp is the go-to newsletter service for Shopify.
+                Use the link below to find your MailChimp form action
+                and insert it in your site settings.
+
+                If the form action URL is not set in the theme settings,
+                it will fallback to a customer form so you can still capture the email.
+
+                MailChimp newsletter integration and requirement:
+                 - http://docs.shopify.com/support/configuration/store-customization/where-do-i-get-my-mailchimp-form-action
+              {% endcomment %}
+              {% if settings.newsletter_form_action != blank %}
+                <form action="{{ settings.newsletter_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="input-group">
+                  <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mail" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                  <span class="input-group-btn">
+                    <input type="submit" class="btn" name="subscribe" id="subscribe" value="{{ 'general.newsletter_form.submit' | t }}">
+                  </span>
+                </form>
+              {% else %}
+                {% form 'customer' %}
+                  {{ form.errors | default_errors }}
+                  {% if form.posted_successfully? %}
+                    <p class="note form-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                  {% else %}
+                    <div class="input-group">
+                      <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                      <input type="hidden" name="contact[tags]" value="newsletter">
+                      <span class="input-group-btn">
+                        <input type="submit" class="btn" name="subscribe" id="subscribe" value="{{ 'general.newsletter_form.submit' | t }}">
+                      </span>
+                    </div>
+                  {% endif %}
+                {% endform %}
+
+
+              {% endif %}
+
+
+            </div>
+
+
+          {% endif %}
+
+
+          <div class="grid__item text-center">
+            <hr>
+            {% comment %}
+              Loop through available payment methods and show their icons.
+            {% endcomment %}
+            {% unless shop.enabled_payment_types == empty %}
+              {% assign payment_icons_available = 'amazon_payments,american_express,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,paypal,visa' | split: ',' %}
+              {% if settings.footer_social_enable %}
+              <div class="social-links">
+
+                  <h3>{{ 'layout.footer.social_title' | t }}</h3>
+                    <ul class="inline-list social-icons">
+                      {% if settings.social_twitter_link != blank %}
+                        <li>
+                          <a class="icon-fallback-text" target="_blank" href="{{ settings.social_twitter_link }}" title="{{ shop.name }} on Twitter">
+                              {% include 'icon-twitter' %}
+                            <!-- <span>Twitter</span> -->
+                          </a>
+                        </li>
+                      {% endif %}
+                      {% if settings.social_facebook_link != blank %}
+                        <li>
+                          <a class="icon-fallback-text" target="_blank" href="{{ settings.social_facebook_link }}" title="{{ shop.name }} on Facebook">
+                            {% include 'icon-facebook' %}
+
+                            <!-- <span >Facebook</span> -->
+                          </a>
+                        </li>
+                      {% endif %}
+
+                      {% if settings.social_instagram_link != blank %}
+                        <li>
+                          <a class="icon-fallback-text" target="_blank" href="{{ settings.social_instagram_link }}" title="{{ shop.name }} on Instagram">
+                            {% include 'icon-instagram' %}
+
+                            <!-- <span class="fallback-text">Instagram</span> -->
+                          </a>
+                        </li>
+                      {% endif %}
+                    </ul>
+                  </div>
+
+              {% endif %}
+            {% endunless %}
+            <a href="http://shopify.com/timber">Pete Hiro Theme Framework</a> by <a href="http://www.shopify.com?ref=Timber" title="Shopify.com">Shopify</a><br>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- //site-footer -->
+  </div>
+
+  {{ 'fastclick.min.js' | asset_url | script_tag }}
+  {{ 'timber.js' | asset_url | script_tag }}
+
+  {% comment %}
+    Template-specific js
+  {% endcomment %}
+  <script>
+    {% if resetPassword %}
+      $(function() {
+        timber.resetPasswordSuccess();
+      });
+    {% endif %}
+  </script>
+
+
+</body>
+</html>
